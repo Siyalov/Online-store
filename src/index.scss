@@ -1,0 +1,167 @@
+$main-color : #f3f2f0;
+$border-color: #ddd;
+$border-main: 1px solid $border-color;
+$background-color: #fbfbfb;
+$header-color:#fff;
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+	border: 0;
+    vertical-align: baseline;
+	font-family: "Roboto";
+	font-style: inherit;
+	font-size: 100%;
+}
+
+html,body {
+   overflow-x: hidden;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+      url("./fonts/Roboto-Regular.ttf") format("truetype");
+  }
+
+  .main__container {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    background-color: $background-color;
+  }
+
+  .items__list {
+    width: 1100px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    align-items: center;
+    row-gap: 30px;
+  }
+
+
+  .btn {
+    padding: 15px;
+    background-color: $main-color;
+    border: $border-main;
+    display: flex;
+    justify-content: center;
+}
+.form__container {
+    height: 100vh;
+    display: flex;
+    background-color: $background-color;
+}
+
+.item__card {
+    width: 250px;
+    height: 359px;
+    background-color: $main-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+
+    .item__pic {
+        width: 230px;
+        height: 230px;
+        object-fit: cover;
+        align-self: center;
+    }
+
+    .item__info {
+        .item__name {
+            text-overflow: ellipsis;
+            overflow: hidden; 
+            white-space: nowrap;
+        }
+    }
+}
+
+.header {
+    background-color: $header-color;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 100px;
+
+    .header__content {
+        display: flex;
+        justify-content: space-between;
+        width: 1200px;
+        margin: auto;
+        height: 100%;
+    }
+    .logo {
+        font-size: 24px;
+        margin: auto 0;
+    }
+
+    .userpage__header {
+        display: flex;
+        gap: 20px;
+    }
+
+    .bag-logo {
+        width: 30px;
+        margin: auto;
+    }
+    .bag-count__wrapper {
+        display: flex;
+        position: absolute;
+        width: 30px;
+        top: 20px;
+        color: white;
+        background-color: black;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        font-size: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+    .bag__wrapper__header {
+        margin: auto;
+        display: flex;
+    }
+    .bag-count {
+        margin: auto;
+    }
+
+    .user-avatar {
+        width: 30px;
+        height: 30px;
+        margin: auto;
+    }
+}
+
+.form__auth {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: auto auto;
+    padding: 30px;
+    gap: 30px;
+    justify-content: center;
+    text-align: center;
+    background-color: $main-color;
+    h1 {
+        font-size: 24px;
+        font-weight: 300;
+    }
+
+    .input {
+        padding: 15px;
+        border: $border-main;
+        background-color: $main-color;
+    }
+
+    .link {
+        padding: 0;
+        text-decoration: underline;
+        color: black;
+    }
+}
