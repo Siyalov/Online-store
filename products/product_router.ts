@@ -11,5 +11,6 @@ productRouter.post(
 
 productRouter.get('s', productController.getAllProducts)
 productRouter.get('/', productController.getOneProduct)
+productRouter.get('/media', productController.getMedia)
 
 export default productRouter

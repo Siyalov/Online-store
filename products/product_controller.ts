@@ -1,14 +1,15 @@
 import fs from 'fs'
-
+import Path from 'path'
 import productService from './product_service'
+
 class ProductController
 {
     async addProduct(req: any, res: any, next: any){
         try{
             const {price, name, description, count} = req.body
             const {image} = req.files
-            await productService.addProduct(name, price, description, count, image)
-            res.json().status(304)
+            let p_id = await productService.addProduct(name, price, description, count, image)
+            res.json(p_id).status(304)
         }catch(e){
             next(e)
         }
@@ -34,7 +35,11 @@ class ProductController
 
     async getMedia(req: any, res: any, next: any){
         try{
-            
+            let {p_id} = req.query
+            let filename = await productService.getMedia(p_id)
+
+            res.sendFile(Path.join(__dirname+'/media/', filename))
+            res.status(200)
         }catch(e){
             next(e)
         }
