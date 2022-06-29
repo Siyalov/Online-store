@@ -3,7 +3,6 @@ const userRouter = Router()
 
 import UserController from './user_controller'
 import {body} from 'express-validator'
-import {userMiddleware} from './user_middleware'
 
 userRouter.post(
     '/sign-up', 
@@ -24,9 +23,5 @@ userRouter.get(
     UserController.logOut
 )
 
-userRouter.get(
-    '/refresh',
-    userMiddleware,
-    UserController.refresh
-)
+
 export default userRouter

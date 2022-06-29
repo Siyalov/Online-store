@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt'
 import status from 'http-errors'
 
-import {Token, User} from './models'
-import tokenService from './token_service'
+import {Users} from './user_models'
+import { Tokens } from '../tokens/token_models'
+import tokenService from '../tokens/token_service'
 import { UserDTO } from './userDTO'
 class UserServ
 {
@@ -11,7 +12,7 @@ class UserServ
             throw status(204, 'email does not found')
         }
         
-        let finded_user = await User.findOne({
+        let finded_user = await Users.findOne({
             where:{
                 email: email
             }
@@ -19,7 +20,7 @@ class UserServ
         if(finded_user){
             throw status(400, `user with email: ${email} already exist`)
         }
-        let user = await User.create({
+        let user = await Users.create({
             email: email,
             password: bcrypt.hashSync(password, 7)
         })
@@ -32,7 +33,7 @@ class UserServ
             throw status(204, 'email does not found')
         }
         
-        let finded_user = await User.findOne({
+        let finded_user = await Users.findOne({
             where:{
                 email: email
             }
@@ -52,22 +53,8 @@ class UserServ
         }
     }
 
-    async refresh(refreshToken: string){
-        let user = tokenService.validateToken(refreshToken)
-
-        if (!user){
-            throw status(401)
-        }
-
-        let tokens = tokenService.generateTokens({...user})
-        await tokenService.saveToken(tokens.refreshToken)
-        return {
-            ...tokens
-        }
-    }
-
    async logout(refreshToken: string) {
-        let token = await Token.findOne({
+        let token = await Tokens.findOne({
             where:{
                 refresh_token: refreshToken
             }

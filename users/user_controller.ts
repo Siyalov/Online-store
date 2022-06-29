@@ -31,27 +31,7 @@ class UserController
         }
     }
 
-    async refresh(req: any, res: any, next: any){
-        try{
-            const {refreshToken} = req.cookies
-            const userData = await userService.refresh(refreshToken)
-                
-            res.cookie(
-                'refreshToken',
-                userData.refreshToken, 
-                {
-                    maxAge: 20*24*60*60*1000, 
-                    httpOnly: true
-                }
-            )
-
-            res.status(201).json(
-                userData
-            )
-        }catch(e){
-            next(e)
-        }
-    }
+    
 
     async logOut(req: any, res: any, next: any){
         try{

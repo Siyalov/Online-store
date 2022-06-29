@@ -3,8 +3,8 @@ import status from 'http-errors'
 
 
 import config from '../config'
-import {Token} from './models'
-import { UserDTO } from './userDTO'
+import {Tokens} from './token_models'
+import { UserDTO } from '../users/userDTO'
 
 class TokenService
 {
@@ -19,7 +19,7 @@ class TokenService
         if (!refreshToken){
             throw status(204)
         }
-        await Token.create({
+        await Tokens.create({
             refresh_token: refreshToken
         })
     }
@@ -31,6 +31,19 @@ class TokenService
             throw status(401)
         }
         return userDto
+    }
+    async refresh(refreshToken: string){
+        let user = this.validateToken(refreshToken)
+
+        if (!user){
+            throw status(401)
+        }
+
+        let tokens = this.generateTokens({...user})
+        await this.saveToken(tokens.refreshToken)
+        return {
+            ...tokens
+        }
     }
 }
 
