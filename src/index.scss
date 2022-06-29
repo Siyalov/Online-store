@@ -25,39 +25,138 @@ html,body {
       url("./fonts/Roboto-Regular.ttf") format("truetype");
   }
 
-  .main__container {
-    display: flex;
-    justify-content: center;
-    padding: 30px;
-    background-color: $background-color;
-  }
-
-  .items__list {
-    width: 1100px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    justify-items: center;
-    align-items: center;
-    row-gap: 30px;
-  }
-
-
-  .btn {
-    padding: 15px;
+.btn {
+    height: 50px;
     background-color: $main-color;
     border: $border-main;
+    padding: 15px;
+    &:hover{
+        background-color: $background-color;
+    }
+    &:active{
+        background-color:$border-color;
+    }
+}
+
+.input {
+    padding: 15px;
+    border: $border-main;
+    background-color: $main-color;
+}
+
+.link {
+    text-decoration: none;
+    display: flex;
+    &:visited {
+        color: black;
+    }
+}
+
+.item__text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.h1 {
+    font-size: 24px;
+    font-weight: 300;
+}
+
+
+.main__container {
     display: flex;
     justify-content: center;
+    padding: 30px 100px;
+    background-color: $background-color;
+    min-height: calc(100vh - 60px);
+    .items__list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        justify-items: center;
+        align-items: center;
+        row-gap: 30px;
+    }
+    .main__content {
+        width: 1200px;
+        .bag__list {
+            margin-top: 30px;
+        }
+        .bag__total__wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            margin-top: 50px;
+            gap: 30px;
+
+            .btn {
+                width: 110px;
+            }
+        }
+    }
+  .user__account {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .input {
+        width: 200px;
+    }
+    .btn {
+        width: fit-content;
+    }
+  }
 }
+
+
+@media (max-width: 1250px) {
+    .items__list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+}
+
+.item__card__bag {
+    display: flex;
+    flex-direction: row;
+    width: 1200px;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: $border-main;
+    gap: 30px;
+    .item__info {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        justify-content: space-between;
+    }
+    .item__pic {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+    }
+    .bag__counter {
+        display: flex;
+        gap: 10px;
+        .button__count {
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+        }
+    }
+    .btn {
+        justify-self: end;
+        width: 110px;
+    }
+}
+
 .form__container {
-    height: 100vh;
+    height: calc(100vh - 60px);
     display: flex;
     background-color: $background-color;
 }
 
 .item__card {
     width: 250px;
-    height: 359px;
     background-color: $main-color;
     display: flex;
     flex-direction: column;
@@ -71,15 +170,8 @@ html,body {
         object-fit: cover;
         align-self: center;
     }
-
-    .item__info {
-        .item__name {
-            text-overflow: ellipsis;
-            overflow: hidden; 
-            white-space: nowrap;
-        }
-    }
 }
+
 
 .header {
     background-color: $header-color;
@@ -103,39 +195,40 @@ html,body {
     .userpage__header {
         display: flex;
         gap: 20px;
+
+        .bag__wrapper__header {
+            margin: auto;
+            display: flex;
+            .bag-logo {
+                width: 30px;
+                margin: auto;
+            }
+            .bag-count__wrapper {
+                display: flex;
+                position: absolute;
+                width: 30px;
+                top: 20px;
+                color: white;
+                background-color: black;
+                width: 17px;
+                height: 17px;
+                border-radius: 50%;
+                font-size: 10px;
+                justify-content: center;
+                align-items: center;
+            }
+            .bag-count {
+                margin: auto;
+            }
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            margin: auto;
+        }
     }
 
-    .bag-logo {
-        width: 30px;
-        margin: auto;
-    }
-    .bag-count__wrapper {
-        display: flex;
-        position: absolute;
-        width: 30px;
-        top: 20px;
-        color: white;
-        background-color: black;
-        width: 17px;
-        height: 17px;
-        border-radius: 50%;
-        font-size: 10px;
-        justify-content: center;
-        align-items: center;
-    }
-    .bag__wrapper__header {
-        margin: auto;
-        display: flex;
-    }
-    .bag-count {
-        margin: auto;
-    }
-
-    .user-avatar {
-        width: 30px;
-        height: 30px;
-        margin: auto;
-    }
 }
 
 .form__auth {
@@ -148,20 +241,10 @@ html,body {
     justify-content: center;
     text-align: center;
     background-color: $main-color;
-    h1 {
-        font-size: 24px;
-        font-weight: 300;
-    }
-
-    .input {
-        padding: 15px;
-        border: $border-main;
-        background-color: $main-color;
-    }
 
     .link {
-        padding: 0;
         text-decoration: underline;
         color: black;
+        margin: auto;
     }
 }

@@ -1,12 +1,12 @@
 import React from "react";
 import Login from "../cmp/login/Login";
 
-const Auth = () => {
+const Register = () => {
     return (
         <>
-            <Login auth="false" />
+            <Login register="true" />
         </>
     )
 }
 
-export default Auth;
+export default Register;
