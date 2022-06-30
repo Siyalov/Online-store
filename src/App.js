@@ -13,7 +13,11 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
+<<<<<<< HEAD
         <Route path='/add-product' element={<AddProduct />} exact />
+=======
+      <Route path='/add-product' element={<AddProduct />} exact />
+>>>>>>> b6056eed1309d5c8e070f35fede91648f1a94827
         <Route path='/login' element={<Auth />} exact />
         <Route path='/register' element={<Auth />} exact />
         <Route path='/' element={<Main />} exact />
