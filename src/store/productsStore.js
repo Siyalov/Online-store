@@ -1,29 +1,45 @@
 import { makeAutoObservable } from "mobx";
 
-const fakeProducts = (number) =>
-    Array.from({ length: number }, (_, index) => ({
-        id: Math.random().toString().slice(0, 6),
-        name: `Some title ${index}`,
-        description: `Some description ${index}`,
-        imageUrl: "https://html5css.ru/html/workplace.jpg",
-        count: Math.floor(Math.random() * 10),
-        price: Math.floor(Math.random() * 10000),
-    }));
-
 class ProductsStore {
-    products = fakeProducts(10);
+  products = [];
 
-    constructor() {
-        makeAutoObservable(this);
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  setProducts(products) {
+    this.products = products;
+  }
+
+  removeProduct(id) {
+    const index = this.products.findIndex((product) => product.id === id);
+
+    if (index < 0) {
+      return;
     }
 
-    setProducts(products) {
-        this.products = products;
+    if (this.products[index].count > 0) {
+      this.products[index].count--;
     }
+  }
 
-    addProduct(product) {
-        this.products.push(product);
-    }
+  addProduct(product) {
+    this.products.push(product);
+  }
+
+  changeProduct(id, newProduct) {
+    const index = this.products.findIndex((product) => product.id === id);
+
+    this.products.splice(index, 1, newProduct);
+  }
+
+  getProduct(id) {
+    const productIndex = productsStore.products.findIndex(
+      (product) => product.id === id
+    );
+
+    return this.products[productIndex];
+  }
 }
 
 export const productsStore = new ProductsStore();

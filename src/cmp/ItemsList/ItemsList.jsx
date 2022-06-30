@@ -3,27 +3,46 @@ import ItemCard from "./ItemCard";
 import { observer } from "mobx-react-lite";
 import { productsStore } from "../../store/productsStore";
 import { URI } from "../../config/config";
-import axios from 'axios'
+import { useFetch } from "../../hooks/useFetch";
+import { cartStore } from "../../store/cartStore";
 
 const ItemsList = observer(() => {
+  const { data, error, isLoading, doFetch } = useFetch({
+    url: `${URI}/product/s`,
+    method: "get",
+  });
 
-    const [items, setItems] = useState([])
+  useEffect(() => {
+    if (productsStore.products.length < 1) {
+      doFetch();
+    }
+  }, []);
 
-    useEffect(() => {
-        axios.get(`${URI}/product/s`)
-            .then(response => setItems(response.data))
-    }, [])
+  useEffect(() => {
+    if (data) {
+      productsStore.setProducts(data.products);
+    }
+  }, [data]);
 
-    return (
-        <div className="items__list__container__wrapper">
-            <div className="main__container">
-                <div className="items__list main__content">
-                    {items.map((product, index) => (
-                        <ItemCard key={index} {...product} />
-                    ))}
-                </div>
-            </div>
+  const toCardHandler = (id) => {
+    const currentProduct = productsStore.getProduct(id);
+    productsStore.removeProduct(id);
+    cartStore.addProduct({ ...currentProduct });
+  };
+
+  if (isLoading) return <div>... Loading</div>;
+
+  return (
+    <div className="items__list__container__wrapper">
+      <div className="main__container">
+        <div className="items__list main__content">
+          {productsStore.products.map((product, index) => (
+            <ItemCard key={index} {...product} toCardHandler={toCardHandler} />
+          ))}
         </div>
-    );
+      </div>
+      {error & <div>{error}</div>}
+    </div>
+  );
 });
 export default ItemsList;
