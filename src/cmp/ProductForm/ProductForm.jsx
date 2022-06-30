@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./ProductForm.module.scss";
 import { useFetch } from "../../hooks/useFetch";
 import { URI } from "../../config/config";
 import { productsStore } from "../../store/productsStore";
@@ -48,7 +47,6 @@ const ProductForm = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         await doFetch();
-        navigate("/");
     };
 
     useEffect(() => {
@@ -85,8 +83,9 @@ const ProductForm = () => {
                     value={getValue("count")}
                     changeHandler={changeHandler("count")}
                 />
-                <InputImg
-                    label="Картинка"
+                <Input
+                    label="Изображение"
+                    type="file"
                     changeHandler={changeHandler("imageUrl")}
                 />
                 <button className="btn" type="submit">Создать продукт</button>
@@ -96,27 +95,15 @@ const ProductForm = () => {
     );
 };
 
-const Input = ({ label, value, changeHandler }) => (
+const Input = ({ label, value, changeHandler, type }) => (
     <input
-        placeholder={label}
         className="input"
-        type="text"
+        placeholder={label}
+        type={`${type || "text"}`}
         name={label}
         value={value}
         onChange={changeHandler}
     />
-);
-
-const InputImg = ({ value, changeHandler }) => (
-    <label htmlFor="inputTag" className="btn">
-        Загрузить изображение
-        <input id="inputTag" className="loading-image"
-            type="file"
-            value={value}
-            onChange={(event) => {
-                this.readFile(event)
-            }} />
-    </label>
 );
 
 export default ProductForm;

@@ -8,9 +8,7 @@ const UserInfo = () => {
     const click = async (evt) => {
         evt.preventDefault();
         if (money) {
-            // const response = await axios.post('http://localhost:9000/user/payment', { money });
-            // localStorage.setItem('money', response.data.finded_user.money)
-            // localStorage.setItem('email', response.data.finded_user.email)
+            // const response = await axios.post('http://localhost:9000/user/payment', { price: money });
         } else {
             setIsEmpty(true)
         }
