@@ -1,0 +1,19 @@
+.productForm {
+    margin: auto;
+    width: 400px;
+    background-color: tomato;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 30px;
+}
+
+.inputWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.submitWrapper {
+    margin-top: 50px;
+    text-align: right;
+} 

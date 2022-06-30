@@ -10,7 +10,7 @@ const fakeProducts = (number) => Array.from({ length: number }, (_, index) => ({
 }))
 
 class ProductsStore {
-    products = fakeProducts(50);
+    products = fakeProducts(10);
 
     constructor() {
         makeAutoObservable(this)
