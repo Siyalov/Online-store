@@ -41,7 +41,7 @@ const ItemsList = observer(() => {
           ))}
         </div>
       </div>
-      {error & <div>{error}</div>}
+      {error && <div>{error}</div>}
     </div>
   );
 });
