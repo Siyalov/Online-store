@@ -34,7 +34,7 @@ class ProductsStore {
   }
 
   getProduct(id) {
-    const productIndex = productsStore.products.findIndex(
+    const productIndex = this.products.findIndex(
       (product) => product.id === id
     );
 
