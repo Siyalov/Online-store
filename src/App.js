@@ -7,6 +7,7 @@ import CustomerPage from "./pages/CustomerPage";
 import Header from "./cmp/header/Header";
 import AddProduct from "./pages/AddProduct";
 
+
 function App() {
 
   return (
@@ -25,3 +26,5 @@ function App() {
 }
 
 export default App;
+
+
