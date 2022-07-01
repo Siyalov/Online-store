@@ -1,5 +1,4 @@
 import { React } from "react";
-import { URI } from "../../config/config";
 
 const ItemCard = ({
   id,
@@ -14,7 +13,7 @@ const ItemCard = ({
     <div className="item__card">
       <img
         className="item__pic"
-        src={URI + "/product/media/?p_id=" + id}
+        src={process.env.REACT_APP_API_URL + "/product/media/?p_id=" + id}
         alt="товар"
       />
       <div className="item__info">
@@ -24,7 +23,7 @@ const ItemCard = ({
         <div className="item__text">{price} ₽</div>
       </div>
       <button
-        disabled={!count}
+        // disabled={!count}
         onClick={() => toCardHandler(id)}
         className="btn"
       >

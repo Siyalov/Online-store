@@ -2,13 +2,13 @@ import { React, useEffect, useState } from "react";
 import ItemCard from "./ItemCard";
 import { observer } from "mobx-react-lite";
 import { productsStore } from "../../store/productsStore";
-import { URI } from "../../config/config";
 import { useFetch } from "../../hooks/useFetch";
 import { cartStore } from "../../store/cartStore";
+import axios from "axios";
 
 const ItemsList = observer(() => {
   const { data, error, isLoading, doFetch } = useFetch({
-    url: `${URI}/product/s`,
+    url: `${process.env.REACT_APP_API_URL}/product/all`,
     method: "get",
   });
 
@@ -20,14 +20,15 @@ const ItemsList = observer(() => {
 
   useEffect(() => {
     if (data) {
-      productsStore.setProducts(data.products);
+      productsStore.setProducts(data);
     }
   }, [data]);
 
-  const toCardHandler = (id) => {
+  const toCardHandler = async (id) => {
     const currentProduct = productsStore.getProduct(id);
     productsStore.removeProduct(id);
     cartStore.addProduct({ ...currentProduct });
+    await axios.post(`${process.env.REACT_APP_API_URL}/cart/add-product`, { p_id: id, count: 1 }, { credentials: 'include' });
   };
 
   if (isLoading) return <div>... Loading</div>;

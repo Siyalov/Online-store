@@ -3,6 +3,7 @@ import { productsStore } from "./productsStore";
 
 class CartStore {
   products = [];
+  sum = 0;
 
   constructor() {
     makeAutoObservable(this);
@@ -70,11 +71,11 @@ class CartStore {
   }
 
   getTotalPrice() {
-    return this.products.reduce(
-      (totalPrice, product) => totalPrice + product.price,
-      0
-    );
+    this.sum = this.products.reduce(
+      (totalPrice, product) => totalPrice + Number(product.price) * product.count, 0);
+    return this.sum
   }
+
 }
 
 export const cartStore = new CartStore();

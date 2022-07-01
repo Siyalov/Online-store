@@ -5,9 +5,10 @@ import { cartStore } from "../../store/cartStore";
 import { productsStore } from "../../store/productsStore";
 
 const Bag = observer(() => {
+
   const addProduct = (id) => {
     const product = productsStore.getProduct(id);
-
+    cartStore.getTotalPrice()
     if (product.count < 1) {
       return;
     }
@@ -16,8 +17,10 @@ const Bag = observer(() => {
     cartStore.addProduct(product);
   };
 
+
   const removeProduct = (id) => {
     cartStore.removeProduct(id);
+    cartStore.getTotalPrice()
 
     const newProduct = productsStore.getProduct(id);
     const newCount = newProduct.count + 1;

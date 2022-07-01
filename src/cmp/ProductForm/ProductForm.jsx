@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
-import { URI } from "../../config/config";
+import { $authHost } from "../../http";
 import { productsStore } from "../../store/productsStore";
 
 const ProductForm = () => {
@@ -36,22 +36,26 @@ const ProductForm = () => {
     };
 
     const { data, error, isLoading, doFetch } = useFetch({
-        url: `${URI}/product/add`,
+        url: `${process.env.REACT_APP_API_URL}/product/add`,
         body: appendData(),
         method: "post",
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${localStorage.getItem('accessToken')}` }
     });
+
+
 
     const getValue = (nameField) => product[nameField];
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        // await $authHost.get('token/refresh')
         await doFetch();
     };
 
     useEffect(() => {
         if (data) {
-            productsStore.addProduct(data);
+            // productsStore.addProduct(data);
+            productsStore.setProducts([]);
             navigate("/");
         }
     }, [data]);
