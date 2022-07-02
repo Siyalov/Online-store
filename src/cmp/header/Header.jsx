@@ -14,18 +14,21 @@ const Header = observer(() => {
           <div className="logo">Магазин</div>
         </Link>
         <div className="userpage__header">
-          <Link to="/add-product" className="link">
-            <img className="user-avatar" src={plus} alt="add-product" />
-          </Link>
-          <Link to="/user" className="link">
+          {localStorage.getItem('is_admin') === 'true' &&
+            <Link to="/add-product" className="link">
+              <img className="user-avatar" src={plus} alt="add-product" />
+            </Link>
+          }
+          <Link to={localStorage.getItem('is_admin') === 'true' ? "/admin" : "/user"} className="link">
             <img className="user-avatar" src={user} alt="account"></img>
           </Link>
-          <Link to="/bag" className="link">
-            <div className="bag__wrapper__header">
-              <img className="bag-logo" src={bag} alt="bag"></img>
-              <div className="bag-count__wrapper">{cartStore.getCount()}</div>
-            </div>
-          </Link>
+          {localStorage.getItem('is_admin') === 'false' &&
+            <Link to="/bag" className="link">
+              <div className="bag__wrapper__header">
+                <img className="bag-logo" src={bag} alt="bag"></img>
+                <div className="bag-count__wrapper">{cartStore.getCount()}</div>
+              </div>
+            </Link>}
         </div>
       </div>
     </header>

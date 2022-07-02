@@ -3,6 +3,7 @@ import BagItem from "./BagItem";
 import { observer } from "mobx-react-lite";
 import { cartStore } from "../../store/cartStore";
 import { productsStore } from "../../store/productsStore";
+import { $authHost } from "../../http";
 
 const Bag = observer(() => {
 
@@ -17,6 +18,11 @@ const Bag = observer(() => {
     cartStore.addProduct(product);
   };
 
+  const order = async (evt) => {
+    evt.preventDefault();
+    await $authHost.get('cart/offer')
+
+  }
 
   const removeProduct = (id) => {
     cartStore.removeProduct(id);
@@ -57,7 +63,7 @@ const Bag = observer(() => {
         </div>
         <div className="bag__total__wrapper">
           <div className="h1">{cartStore.getTotalPrice()} ₽</div>
-          <button className="btn">Оформить</button>
+          <button className="btn" onClick={order}>Оформить</button>
         </div>
       </div>
     </div>

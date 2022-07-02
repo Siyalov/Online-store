@@ -11,5 +11,6 @@ export const login = async (email, password) => {
     let res = await $authHost.post('user/log-in', { email, password }, { credentials: 'include' })
     localStorage.setItem('accessToken', res.data.accessToken)
     localStorage.setItem('refreshToken', res.data.refreshToken)
+    localStorage.setItem('is_admin', res.data.userDto.is_admin)
 }
 

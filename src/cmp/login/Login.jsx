@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
+import { $authHost } from "../../http";
 import { login, registration } from "../../http/userAPI";
 
 const Login = () => {
@@ -19,33 +20,26 @@ const Login = () => {
         try {
             let data;
             if (isLogin) {
-                login(email, password);
+                login(email, password).then(async () => {
+                    let res = await $authHost.get('user/profile');
+                    console.log(res.data)
+                    localStorage.setItem('email', res.data.email)
+                    localStorage.setItem('money', res.data.money)
+                    navigate('/')
+                })
             } else {
                 registration(email, password)
             }
-            // localStorage.setItem('money', data.finded_user.money)
-            // localStorage.setItem('email', data.finded_user.email)
         }
         catch (e) {
             alert(e.message)
         }
-
-
-        // if (isLogin) {
-        //     login(user.email, user.password);
-        // } else {
-        //     user.password === user.confirm ? registration(user.email, user.password) : setError(error ? error.message : "Пароли не совпадают");
-        // }
-
     }
-
-
 
     return (
         <div className="form__container">
             <form className="form__small">
-                {loc.pathname === '/login' && <h1 className="h1">Авторизация</h1>}
-                {loc.pathname === '/register' && <h1 className="h1">Регистрация</h1>}
+                <h1 className="h1">{isLogin ? 'Авторизация' : 'Регистрация'}</h1>
                 <input
                     value={email}
                     onChange={e => setEmail(e.target.value)}

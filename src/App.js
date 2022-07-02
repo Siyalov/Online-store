@@ -6,6 +6,7 @@ import ShoppingBag from "./pages/ShoppingBag";
 import CustomerPage from "./pages/CustomerPage";
 import Header from "./cmp/header/Header";
 import AddProduct from "./pages/AddProduct";
+import AdminPage from "./pages/AdminPage";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path='/' element={<Main />} exact />
         <Route path='/bag' element={<ShoppingBag />} exact />
         <Route path='/user' element={<CustomerPage />} exact />
+        <Route path='/admin' element={<AdminPage />} exact />
       </Routes>
     </BrowserRouter>
   );

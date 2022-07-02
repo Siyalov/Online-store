@@ -5,12 +5,14 @@ import { productsStore } from "../../store/productsStore";
 import { useFetch } from "../../hooks/useFetch";
 import { cartStore } from "../../store/cartStore";
 import axios from "axios";
+import { $authHost } from "../../http";
 
 const ItemsList = observer(() => {
   const { data, error, isLoading, doFetch } = useFetch({
     url: `${process.env.REACT_APP_API_URL}/product/all`,
     method: "get",
   });
+
 
   useEffect(() => {
     if (productsStore.products.length < 1) {
@@ -28,7 +30,12 @@ const ItemsList = observer(() => {
     const currentProduct = productsStore.getProduct(id);
     productsStore.removeProduct(id);
     cartStore.addProduct({ ...currentProduct });
-    await axios.post(`${process.env.REACT_APP_API_URL}/cart/add-product`, { p_id: id, count: 1 }, { credentials: 'include' });
+    await $authHost.post('/cart/add-product', { p_id: id, count: 1 }).then(
+      async () => {
+        let res = await $authHost.get('cart');
+        console.log(res.data);
+      }
+    )
   };
 
   if (isLoading) return <div>... Loading</div>;
