@@ -8,11 +8,10 @@ import Header from "./cmp/header/Header";
 import AddProduct from "./pages/AddProduct";
 import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
-import AppRoutes from "./cmp/routes/AppRoutes";
+import AppRoutes from "./cmp/routes/AppRoutes"
 //import { check } from "prettier";
 import checkAdmin from "./chekers/checkAdmin";
-
-
+import checkAuth from "./chekers/checkAuth";
 
 //   ADD_PRODUCT_ROUTE,
 //   ADMIN_ROUTE,
@@ -25,7 +24,7 @@ import checkAdmin from "./chekers/checkAdmin";
 // } from "./cmp/consts/consts";
 
 
-const isAuth = false 
+const isAuth = false
 const isAdmin = false  
 
 console.log(checkAdmin())
