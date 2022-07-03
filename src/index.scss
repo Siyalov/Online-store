@@ -260,4 +260,20 @@ html,body {
     .loading-image {
         display:none;
     }
+    
+}
+
+.notfound__block {
+    display: flex;
+    margin-top: 100px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    .notfound__title {
+        font-size: 30px;
+        }
+    .notfound__code {
+    font-size: 60px;
+        }
 }

@@ -7,3 +7,4 @@ export const USER_ROUTE = "/user"
 export const ADD_PRODUCT_ROUTE = "/add-product"
 
 export const ITEM_PIC = "/product/media/?p_id="
+export const NOT_FOUND_PAGE = '*'
