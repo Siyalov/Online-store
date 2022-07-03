@@ -1,0 +1,6 @@
+
+export default  function checkAuth ()  {
+  const isAuth = JSON.parse(localStorage.getItem('refreshToken')) || false
+  return isAuth
+}
+

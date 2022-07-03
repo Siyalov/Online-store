@@ -8,7 +8,11 @@ import Header from "./cmp/header/Header";
 import AddProduct from "./pages/AddProduct";
 import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
-import AppRoutes from "./cmp/routes/AppRoutes"
+import AppRoutes from "./cmp/routes/AppRoutes";
+//import { check } from "prettier";
+import checkAdmin from "./chekers/checkAdmin";
+
+
 
 //   ADD_PRODUCT_ROUTE,
 //   ADMIN_ROUTE,
@@ -21,18 +25,23 @@ import AppRoutes from "./cmp/routes/AppRoutes"
 // } from "./cmp/consts/consts";
 
 
+const isAuth = false 
+const isAdmin = false  
+
+console.log(checkAdmin())
+
+
 function App() {
 
   // ВРЕМЕННЫЕ ПЕРЕМЕННЫЕ !!! 
   // ЧТОБЫ РАБОТАЛ КОД !!!
 
-const isAuth = false
-const isAdmin = false
+
 
   return (
     <BrowserRouter>
       <Header />
-      
+
       <AppRoutes isAuth={isAuth} isAdmin={isAdmin}/>
   
 
