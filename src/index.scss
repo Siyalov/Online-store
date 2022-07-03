@@ -15,9 +15,6 @@ $header-color:#fff;
 	font-size: 100%;
 }
 
-html,body {
-   overflow-x: hidden;
-}
 
 @font-face {
     font-family: "Roboto";
@@ -59,6 +56,15 @@ html,body {
     }
 }
 
+.error {
+
+}
+.bag__error {
+    display: flex;
+    justify-content: end;
+    margin-top: 30px;
+    color: red;
+}
 .item__text {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -87,8 +93,23 @@ html,body {
     }
     .main__content {
         width: 1200px;
-        .bag__list {
-            margin-top: 30px;
+        .list {
+            .item__list {
+                display: flex;
+                flex-direction: row;
+                flex: 1;
+                gap: 30px;
+                border-bottom: $border-main;
+                padding: 15px;
+                .count {
+                    width: 150px;
+                    display: flex;
+                    justify-content: end;
+                }
+                .name {
+                    flex: 1;
+                }
+            }
         }
         .bag__total__wrapper {
             display: flex;
@@ -101,6 +122,7 @@ html,body {
                 width: 110px;
             }
         }
+
     }
   .user__account {
     display: flex;
@@ -138,16 +160,24 @@ html,body {
         display: flex;
         flex-direction: row;
         flex: 1;
-        justify-content: space-between;
+    }
+    .item__name {
+        flex:1;
     }
     .item__pic {
         width: 150px;
         height: 150px;
         object-fit: cover;
     }
+    .h1 {
+        width: 200px;
+        display: flex;
+        justify-content: end;
+    }
     .bag__counter {
         display: flex;
         gap: 10px;
+        width: 150px;
         .button__count {
             border-radius: 50%;
             width: 20px;
@@ -260,4 +290,19 @@ html,body {
     .loading-image {
         display:none;
     }
+}
+
+.notfound__block {
+    display: flex;
+    margin-top: 100px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    .notfound__title {
+        font-size: 30px;
+        }
+    .notfound__code {
+    font-size: 60px;
+        }
 }

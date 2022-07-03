@@ -12,14 +12,17 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const [confirm, setConfirm] = useState("")
     const [error, setError] = useState("");
-
+    const [emptyLog, setEmptyLog] = useState(false)
+    const [emptyPass, setEmptyPass] = useState(false)
 
     const click = async (evt) => {
         evt.preventDefault();
-        try {
+        if (email.length < 1) setEmptyLog(true)
+        if (password.length < 1) setEmptyPass(true)
+        else {
             if (isLogin) {
-                login(email, password).then(async () => {
-                    let res = await $authHost.get("user/profile");
+                login(email, password).catch(() => setError("Неверный логин или пароль")).then(async () => {
+                    let res = await $authHost.get("user/profile")
                     localStorage.setItem("email", res.data.email)
                     localStorage.setItem("money", res.data.money)
                     navigate(SHOP_ROUTE)
@@ -29,13 +32,13 @@ const Login = () => {
                     setError("Пароли не совпадают");
                     return;
                 }
-                registration(email, password)
+                registration(email, password).then(setError("Регистрация прошла успешно"))
             }
         }
-        catch (e) {
-            setError(e.message)
-        }
+
     }
+
+    const changeLink = () => setError(null)
 
     return (
         <div className="form__container">
@@ -44,7 +47,7 @@ const Login = () => {
                 <input
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="input"
+                    className={emptyLog ? "input input__error" : "input"}
                     type="email"
                     name="login"
                     placeholder="Логин"
@@ -53,7 +56,7 @@ const Login = () => {
                 <input
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    className="input"
+                    className={emptyPass ? "input input__error" : "input"}
                     type="password"
                     name="password"
                     placeholder="Пароль"
@@ -71,7 +74,7 @@ const Login = () => {
                     />
                 }
                 <button type="submit" className="btn" onClick={click}>{isLogin ? "Войти" : "Создать аккаунт"}</button>
-                <Link to={isLogin ? REG_ROUTE : LOGIN_ROUTE} className="link">{isLogin ? "Создать аккаунт" : "Войти"}</Link>
+                <Link to={isLogin ? REG_ROUTE : LOGIN_ROUTE} onClick={changeLink} className="link">{isLogin ? "Создать аккаунт" : "Войти"}</Link>
                 {error && <div>{error}</div>}
             </form>
         </div>

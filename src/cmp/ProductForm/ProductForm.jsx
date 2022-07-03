@@ -48,15 +48,16 @@ const ProductForm = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        // await $authHost.get("token/refresh")
-        (getValue("price") < Number.MAX_SAFE_INTEGER && getValue("count") < Number.MAX_SAFE_INTEGER) ? await doFetch() : error = "Слишком большое число"
+        if (getValue("price") < Number.MAX_SAFE_INTEGER && getValue("count") < Number.MAX_SAFE_INTEGER) {
+            await doFetch()
+        }
     };
 
     useEffect(() => {
         if (data) {
             // productsStore.addProduct(data);
             productsStore.setProducts([]);
-            navigate("/");
+            navigate("/")
         }
     }, [data]);
 
@@ -93,7 +94,7 @@ const ProductForm = () => {
                     changeHandler={changeHandler("imageUrl")}
                 />
                 <button className="btn" type="submit">Создать продукт</button>
-                {error && <div>{error}</div>}
+                {error && <div>Заполните все поля</div>}
             </form>
         </div>
     );

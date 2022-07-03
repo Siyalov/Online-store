@@ -1,16 +1,16 @@
 import { React } from "react";
 
-const Order = (userData) => {
+const Order = (user) => {
 
     return (
-        <div className="item__card__bag">
-            <div className="item__info">
-                <div className="item__name">{userData.email}</div>
-                <div className="count">{userData.orderCount}</div>
-                <div className="date">{userData.lastDate}</div>
-                <div className="money">{(userData.total / userData.orderCount).toFixed(2)}  ₽</div>
-                <div className="money">{userData.total}  ₽</div>
-
+        <div className="list">
+            <div className="item__list">
+                <div className="name">{user.email}</div>
+                <div className="count">{user.count}</div>
+                <div className="count">{Number(user.minCheck).toFixed(2)}</div>
+                <div className="count">{Number(user.maxCheck).toFixed(2)}</div>
+                <div className="count">{Number(user.mediumCheck).toFixed(2)}</div>
+                <div className="count">{Number(user.sum).toFixed(2)}</div>
             </div>
         </div>
     );

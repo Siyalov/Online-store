@@ -1,5 +1,5 @@
 import axios from "axios";
-import { $authHost, $checkHost } from "./index";
+import { $authHost } from "./index";
 
 export const registration = async (email, password) => {
     let res = await $authHost.post("user/sign-up", { email, password }, { credentials: "include" });
@@ -8,27 +8,22 @@ export const registration = async (email, password) => {
 }
 
 export const login = async (email, password) => {
-    try {
-        let res = await $authHost.post("user/log-in", { email, password }, { credentials: "include" });
-        localStorage.setItem("accessToken", res.data.accessToken);
-        localStorage.setItem("refreshToken", res.data.refreshToken);
-        localStorage.setItem("is_admin", res.data.userDto.is_admin);
-    }
-    catch (e) {
-        throw new Error('oops')
-    }
-}
-
-export const refresh = async () => {
-    let res = await axios.get(process.env.REACT_APP_API_URL + "/token/refresh");
+    let res = await $authHost.post("user/log-in", { email, password }, { credentials: "include" });
     localStorage.setItem("accessToken", res.data.accessToken);
     localStorage.setItem("refreshToken", res.data.refreshToken);
+    localStorage.setItem("is_admin", res.data.userDto.is_admin);
 }
 
 export const fetchUsers = async () => {
     const { data } = await $authHost.get("/analitics/users-list");
     return data;
 }
+
+export const fetchStat = async (id) => {
+    const { data } = await $authHost.get("analitics/purchases");
+    return data;
+}
+
 
 export const fetchUserInfo = async () => {
     const { data } = await $authHost.get("user/profile");

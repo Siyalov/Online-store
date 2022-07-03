@@ -1,52 +1,36 @@
 import { React, useEffect, useState } from "react";
 import { $authHost } from "../../http";
 import Order from "./Order";
-import { fetchUsers } from "../../http/userAPI";
+import { fetchDetails, fetchStat, fetchUsers } from "../../http/userAPI";
 
 const OrderList = () => {
 
 
     const [users, setUsers] = useState([])
+    const [stat, setStat] = useState([])
 
     useEffect(() => {
-        fetchUsers().then(data => { setUsers(data) });
+        fetchUsers().then(data => { setUsers(data); console.log(data); })
     }, [])
 
-
-    function total(arr) {
-        let sum, count, date;
-        sum = 0;
-        count = 0;
-        date = "";
-        for (let i = 0; i < arr.length; i++) {
-            sum += +arr[i].total;
-            count += +arr[i].orderCount;
-            date = (date > arr[i].lastDate ? date : arr[i].lastDate)
-        }
-        return {
-            email: "Всего",
-            total: sum.toFixed(2).toString(),
-            orderCount: count.toString(),
-            lastDate: date
-        }
-    }
+    useEffect(() => {
+        fetchStat().then(data => { setStat(data); console.log(data); })
+    }, [])
 
     return (
         <div className="main__container form__container">
             <div className="main__content">
                 <h1 className="h1">Аналитика</h1>
-                <div className="bag__list">
-                    <div className="item__card__bag">
-                        <div className="item__info">
-                            <div className="item__name"></div>
-                            <div className="count">Число заказов</div>
-                            <div className="date">Последний</div>
-                            <div className="money">Средний чек, ₽</div>
-                            <div className="money">Всего, ₽</div>
-
-                        </div>
+                <div className="list">
+                    <div className="item__list">
+                        <div className="name"></div>
+                        <div className="count">Число заказов</div>
+                        <div className="count">Мин. чек, ₽</div>
+                        <div className="count">Макс. чек, ₽</div>
+                        <div className="count">Средний чек, ₽</div>
+                        <div className="count">Всего, ₽</div>
                     </div>
-                    <Order {...total(users)} />
+                    <Order {...stat} />
                     {users.map((user, index) => (
                         <Order key={index} {...user} />
                     ))}

@@ -4,11 +4,14 @@ import { observer } from "mobx-react-lite";
 //import { cartStore } from "../../store/cartStore";
 import { productsStore } from "../../store/productsStore";
 import { $authHost } from "../../http";
-import { fetchCart } from "../../http/userAPI";
+import { fetchCart, fetchUserInfo } from "../../http/userAPI";
 
 
 const Bag = observer(() => {
   let [bag, setBag] = useState([]);
+  let [error, setError] = useState([]);
+  //let [userInfo, setUserInfo] = useState(false);
+
   useEffect(() => {
     fetchCart().then(data => { setBag(data); console.log(data); console.log(bag, 'bag') });
   }, [])
@@ -55,7 +58,7 @@ const Bag = observer(() => {
 
   const order = async (evt) => {
     evt.preventDefault();
-    await $authHost.get("cart/offer")
+    await $authHost.get("cart/offer").catch(() => setError("Недостаточно средств"))
     fetchCart().then(data => { setBag(data); console.log(data); });
   }
 
@@ -92,7 +95,7 @@ const Bag = observer(() => {
     <div className="main__container">
       <div className="main__content">
         <h1 className="h1">Корзина{bag.length === 0 && " пуста"}</h1>
-        <div className="bag__list">
+        <div className="list">
           {bag.map((p) => (
             <BagItem
               removeProduct={removeProduct}
@@ -108,6 +111,7 @@ const Bag = observer(() => {
             <div className="h1">{getTotalPrice()} ₽</div>
             <button className="btn" onClick={order}>Оформить</button>
           </div>}
+        {error && <div className="bag__error error">{error}</div>}
       </div>
     </div>
   );

@@ -18,7 +18,8 @@ const Header = observer(() => {
   }, [])
   let [bagCount, setBagCount] = useState([]);
   useEffect(() => {
-    fetchCart().then(data => { setBagCount(data) });
+    if (localStorage.getItem("is_admin") === "false")
+      fetchCart().then(data => { setBagCount(data) });
   }, [])
   // useEffect(() => {
   //   setCartCount(localStorage.getItem("cartCount"))
