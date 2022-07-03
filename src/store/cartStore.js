@@ -4,9 +4,13 @@ import { productsStore } from "./productsStore";
 class CartStore {
   products = [];
   sum = 0;
+  //count = 0;
 
   constructor() {
     makeAutoObservable(this);
+  }
+  setProducts(products) {
+    this.products = products;
   }
 
   addProduct(newProduct) {
@@ -69,6 +73,13 @@ class CartStore {
   getCount() {
     return this.products.reduce((count, product) => count + product.count, 0);
   }
+  // getCount() {
+  //   return this.count;
+  // }
+
+  // add() {
+  //   this.count++;
+  // }
 
   getTotalPrice() {
     this.sum = this.products.reduce(

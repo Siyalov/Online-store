@@ -39,7 +39,7 @@ const ProductForm = () => {
         url: `${process.env.REACT_APP_API_URL}/product/add`,
         body: appendData(),
         method: "post",
-        headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${localStorage.getItem('accessToken')}` }
+        headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${localStorage.getItem("accessToken")}` }
     });
 
 
@@ -48,7 +48,7 @@ const ProductForm = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        // await $authHost.get('token/refresh')
+        // await $authHost.get("token/refresh")
         await doFetch();
     };
 

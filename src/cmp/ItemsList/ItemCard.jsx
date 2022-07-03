@@ -1,10 +1,10 @@
 import { React } from "react";
+import { ITEM_PIC } from "../consts/consts";
 
 const ItemCard = ({
   id,
   name,
   description,
-  imageUrl,
   count,
   price,
   toCardHandler,
@@ -13,7 +13,7 @@ const ItemCard = ({
     <div className="item__card">
       <img
         className="item__pic"
-        src={process.env.REACT_APP_API_URL + "/product/media/?p_id=" + id}
+        src={process.env.REACT_APP_API_URL + ITEM_PIC + id}
         alt="товар"
       />
       <div className="item__info">

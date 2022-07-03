@@ -1,25 +1,17 @@
 import { React, useEffect, useState } from "react";
-import { useFetch } from "../../hooks/useFetch";
 import { $authHost } from "../../http";
 import Order from "./Order";
+import { fetchUsers } from "../../http/userAPI";
 
 const OrderList = () => {
-    // const { data, error, isLoading, doFetch } = useFetch({
-    //     url: `${process.env.REACT_APP_API_URL}/analitics/users-list`,
-    //     method: "get",
-    //     headers: { "Authorization": `Bearer ${localStorage.getItem('accessToken')}` }
-    // });
 
-    // const fetchUsers = () => {
-    //     $authHost.get('/analitics/users-list');
-    //     //console.log(r.data);
-    // }
-    // const [users, setUsers] = useState([])
 
-    // useEffect(() => {
-    //     fetchUsers().then(data => setUsers(data));
-    //     console.log(users);
-    // }, [])
+    const [users, setUsers] = useState([])
+
+    useEffect(() => {
+        fetchUsers().then(data => { setUsers(data) });
+    }, [])
+
 
     function total(arr) {
         let sum, count, date;
@@ -54,6 +46,10 @@ const OrderList = () => {
 
                         </div>
                     </div>
+                    <Order {...total(users)} />
+                    {users.map((user, index) => (
+                        <Order key={index} {...user} />
+                    ))}
                 </div>
             </div>
         </div>

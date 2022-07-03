@@ -1,10 +1,9 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect } from "react";
 import ItemCard from "./ItemCard";
 import { observer } from "mobx-react-lite";
 import { productsStore } from "../../store/productsStore";
 import { useFetch } from "../../hooks/useFetch";
 import { cartStore } from "../../store/cartStore";
-import axios from "axios";
 import { $authHost } from "../../http";
 
 const ItemsList = observer(() => {
@@ -29,10 +28,16 @@ const ItemsList = observer(() => {
   const toCardHandler = async (id) => {
     const currentProduct = productsStore.getProduct(id);
     productsStore.removeProduct(id);
-    cartStore.addProduct({ ...currentProduct });
-    await $authHost.post('/cart/add-product', { p_id: id, count: 1 }).then(
+    // cartStore.addProduct({ ...currentProduct });
+    // cartStore.add();
+    let tmp = localStorage.getItem("cartCount");
+    tmp++;
+    console.log(tmp);
+    localStorage.setItem("cartCount", tmp)
+
+    await $authHost.post("/cart/add-product", { p_id: id, count: 1 }).then(
       async () => {
-        let res = await $authHost.get('cart');
+        let res = await $authHost.get("cart");
         console.log(res.data);
       }
     )
