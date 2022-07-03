@@ -7,6 +7,7 @@ import CustomerPage from "./pages/CustomerPage";
 import Header from "./cmp/header/Header";
 import AddProduct from "./pages/AddProduct";
 import AdminPage from "./pages/AdminPage";
+import NotFound from "./pages/NotFound";
 import {
   ADD_PRODUCT_ROUTE,
   ADMIN_ROUTE,
@@ -14,7 +15,8 @@ import {
   LOGIN_ROUTE,
   REG_ROUTE,
   SHOP_ROUTE,
-  USER_ROUTE
+  USER_ROUTE,
+  NOT_FOUND_PAGE
 } from "./cmp/consts/consts";
 
 
@@ -31,6 +33,7 @@ function App() {
         <Route path={BAG_ROUTE} element={<ShoppingBag />} exact />
         <Route path={USER_ROUTE} element={<CustomerPage />} exact />
         <Route path={ADMIN_ROUTE} element={<AdminPage />} exact />
+        <Route path={NOT_FOUND_PAGE} element={<NotFound />} exact />
       </Routes>
     </BrowserRouter>
   );

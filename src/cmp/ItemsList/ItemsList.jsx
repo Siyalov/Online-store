@@ -5,6 +5,7 @@ import { productsStore } from "../../store/productsStore";
 import { useFetch } from "../../hooks/useFetch";
 import { cartStore } from "../../store/cartStore";
 import { $authHost } from "../../http";
+import { refresh } from "../../http/userAPI";
 
 const ItemsList = observer(() => {
   const { data, error, isLoading, doFetch } = useFetch({
@@ -28,22 +29,21 @@ const ItemsList = observer(() => {
   const toCardHandler = async (id) => {
     const currentProduct = productsStore.getProduct(id);
     productsStore.removeProduct(id);
-    // cartStore.addProduct({ ...currentProduct });
-    // cartStore.add();
+    cartStore.addProduct({ ...currentProduct });
+    cartStore.add();
     let tmp = localStorage.getItem("cartCount");
     tmp++;
     console.log(tmp);
     localStorage.setItem("cartCount", tmp)
-
     await $authHost.post("/cart/add-product", { p_id: id, count: 1 }).then(
       async () => {
         let res = await $authHost.get("cart");
         console.log(res.data);
-      }
-    )
+
+      })
   };
 
-  if (isLoading) return <div>... Loading</div>;
+  if (isLoading) return <div>... Загрузка</div>;
 
   return (
     <div className="items__list__container__wrapper">

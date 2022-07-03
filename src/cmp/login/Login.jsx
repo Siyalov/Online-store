@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { $authHost } from "../../http";
 import { login, registration } from "../../http/userAPI";
+import { LOGIN_ROUTE, REG_ROUTE, SHOP_ROUTE } from "../consts/consts";
 
 const Login = () => {
     const loc = useLocation();
-    const isLogin = loc.pathname === "/login"
+    const isLogin = loc.pathname === LOGIN_ROUTE
+    const navigate = useNavigate();
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirm, setConfirm] = useState("")
-    const navigate = useNavigate();
     const [error, setError] = useState("");
 
 
@@ -21,9 +22,13 @@ const Login = () => {
                     let res = await $authHost.get("user/profile");
                     localStorage.setItem("email", res.data.email)
                     localStorage.setItem("money", res.data.money)
-                    navigate("/")
+                    navigate(SHOP_ROUTE)
                 })
             } else {
+                if (confirm !== password) {
+                    setError("Пароли не совпадают");
+                    return;
+                }
                 registration(email, password)
             }
         }
@@ -66,7 +71,7 @@ const Login = () => {
                     />
                 }
                 <button type="submit" className="btn" onClick={click}>{isLogin ? "Войти" : "Создать аккаунт"}</button>
-                <Link to={isLogin ? "/register" : "/login"} className="link">{isLogin ? "Создать аккаунт" : "Войти"}</Link>
+                <Link to={isLogin ? REG_ROUTE : LOGIN_ROUTE} className="link">{isLogin ? "Создать аккаунт" : "Войти"}</Link>
                 {error && <div>{error}</div>}
             </form>
         </div>

@@ -5,5 +5,5 @@ export const SHOP_ROUTE = "/"
 export const BAG_ROUTE = "/bag"
 export const USER_ROUTE = "/user"
 export const ADD_PRODUCT_ROUTE = "/add-product"
-
+export const NOT_FOUND_PAGE = '*'
 export const ITEM_PIC = "/product/media/?p_id="

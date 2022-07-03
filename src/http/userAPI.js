@@ -1,4 +1,5 @@
-import { $authHost } from "./index";
+import axios from "axios";
+import { $authHost, $checkHost } from "./index";
 
 export const registration = async (email, password) => {
     let res = await $authHost.post("user/sign-up", { email, password }, { credentials: "include" });
@@ -7,14 +8,19 @@ export const registration = async (email, password) => {
 }
 
 export const login = async (email, password) => {
-    let res = await $authHost.post("user/log-in", { email, password }, { credentials: "include" });
-    localStorage.setItem("accessToken", res.data.accessToken);
-    localStorage.setItem("refreshToken", res.data.refreshToken);
-    localStorage.setItem("is_admin", res.data.userDto.is_admin);
+    try {
+        let res = await $authHost.post("user/log-in", { email, password }, { credentials: "include" });
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+        localStorage.setItem("is_admin", res.data.userDto.is_admin);
+    }
+    catch (e) {
+        throw new Error('oops')
+    }
 }
 
 export const refresh = async () => {
-    let res = await $authHost.get("/refresh");
+    let res = await axios.get(process.env.REACT_APP_API_URL + "/token/refresh");
     localStorage.setItem("accessToken", res.data.accessToken);
     localStorage.setItem("refreshToken", res.data.refreshToken);
 }

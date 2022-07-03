@@ -7,13 +7,16 @@ const UserInfo = () => {
     const [payment, setPayment] = useState("");
     let [isEmpty, setIsEmpty] = useState(false);
     let [userInfo, setUserInfo] = useState(false);
+    const [error, setError] = useState("");
 
     const click = async (evt) => {
         evt.preventDefault();
-        if (payment) {
+        if (payment > 0 && payment.indexOf("-") === -1 && payment < Number.MAX_SAFE_INTEGER) {
             addMoney(payment).then(data => { setUserInfo(data) });
+            setError(false)
         } else {
-            setIsEmpty(true)
+            if (payment.length === 0) setIsEmpty(true);
+            else setError("Введите корректную сумму")
         }
 
     }
@@ -28,7 +31,8 @@ const UserInfo = () => {
             <div className="main__content user__account">
                 <p className="h1">{userInfo.email}</p>
                 <p className="h1">Баланс: {userInfo.money} ₽</p>
-                <input value={payment} onChange={e => setPayment(e.target.value)} className={isEmpty ? "input input__error" : "input"} placeholder="Сумма, ₽"></input>
+                <input type="number" min="0" value={payment} onChange={e => setPayment(e.target.value)} className={isEmpty ? "input input__error" : "input"} placeholder="Сумма, ₽"></input>
+                {error && <div>{error}</div>}
                 <button onClick={click} className="btn">Пополнить</button>
                 <Link to={LOGIN_ROUTE} className="link" onClick={logout}>Выйти</Link>
             </div>

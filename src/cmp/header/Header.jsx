@@ -6,7 +6,7 @@ import plus from "../../img/plus.svg";
 import { cartStore } from "../../store/cartStore";
 import { observer } from "mobx-react-lite";
 import {
-  ADD_PRODUCT_ROUTE, ADMIN_ROUTE, BAG_ROUTE, SHOP_ROUTE, USER_ROUTE
+  ADD_PRODUCT_ROUTE, ADMIN_ROUTE, BAG_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, USER_ROUTE
 } from "../consts/consts";
 import { fetchCart } from "../../http/userAPI";
 
@@ -42,7 +42,7 @@ const Header = observer(() => {
               <img className="user-avatar" src={plus} alt="add-product" />
             </Link>
           }
-          <Link to={isAdmin === "true" ? ADMIN_ROUTE : USER_ROUTE} className="link">
+          <Link to={isAdmin === "true" ? ADMIN_ROUTE : isAdmin === "false" ? USER_ROUTE : LOGIN_ROUTE} className="link">
             <img className="user-avatar" src={user} alt="avatar"></img>
           </Link>
           {localStorage.getItem("is_admin") === "false" &&

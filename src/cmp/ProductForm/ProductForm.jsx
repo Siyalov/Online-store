@@ -49,7 +49,7 @@ const ProductForm = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         // await $authHost.get("token/refresh")
-        await doFetch();
+        (getValue("price") < Number.MAX_SAFE_INTEGER && getValue("count") < Number.MAX_SAFE_INTEGER) ? await doFetch() : error = "Слишком большое число"
     };
 
     useEffect(() => {

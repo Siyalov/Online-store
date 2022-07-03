@@ -32,10 +32,19 @@ const Bag = observer(() => {
     )
   };
   const removeProduct = async (id) => {
+    productsStore.addProduct(id);
+    await $authHost.post("/cart/add-product", { p_id: id, count: -1 }).then(
+      async () => {
+        let res = await $authHost.get("cart");
+        console.log(res.data);
+      }
+    )
+  };
+  const removeProductGroup = async (id) => {
     //const newProduct = productsStore.getProduct(id);
     //const newCount = newProduct.count + 1;
     // productsStore.changeProduct(id, { ...newProduct, count: newCount });
-    await $authHost.get("/cart/remove-item", { p_id: id }).then(
+    await $authHost.get("/cart/remove-item?p_id=" + id).then(
       async () => {
         let res = await $authHost.get("cart");
         console.log(res.data);
@@ -88,7 +97,7 @@ const Bag = observer(() => {
             <BagItem
               removeProduct={removeProduct}
               addProduct={addProduct}
-              //removeProductGroup={removeProductGroup}
+              removeProductGroup={removeProductGroup}
               item={p}
               key={p.product.id}
             />
