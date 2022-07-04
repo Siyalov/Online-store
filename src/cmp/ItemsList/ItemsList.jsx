@@ -2,32 +2,21 @@ import { React, useEffect } from "react";
 import ItemCard from "./ItemCard";
 import { observer } from "mobx-react-lite";
 import { productsStore } from "../../store/productsStore";
-import { useFetch } from "../../hooks/useFetch";
 import { cartStore } from "../../store/cartStore";
 import { $authHost } from "../../http";
 import { usersStore } from "../../store/userStore";
 import { useNavigate } from "react-router";
 import { LOGIN_ROUTE } from "../consts/consts";
+import { fetchProducts } from "../../http/userAPI";
 
 const ItemsList = observer(() => {
   const navigate = useNavigate();
-  const { data, error, isLoading, doFetch } = useFetch({
-    url: `${process.env.REACT_APP_API_URL}/product/all`,
-    method: "get",
-  });
-
 
   useEffect(() => {
     if (productsStore.products.length < 1) {
-      doFetch();
+      fetchProducts().then(data => { productsStore.setProducts(data) });
     }
-  });
-
-  useEffect(() => {
-    if (data) {
-      productsStore.setProducts(data);
-    }
-  }, [data]);
+  }, [])
 
   const toCardHandler = async (id) => {
     if (usersStore.getRole() !== "user") {
@@ -42,8 +31,6 @@ const ItemsList = observer(() => {
     }
   };
 
-  if (isLoading) return <div>... Загрузка</div>;
-
   return (
     <div className="items__list__container__wrapper">
       <div className="main__container">
@@ -53,7 +40,6 @@ const ItemsList = observer(() => {
           ))}
         </div>
       </div>
-      {error && <div>{error}</div>}
     </div>
   );
 });

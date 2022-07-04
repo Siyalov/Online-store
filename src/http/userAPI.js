@@ -38,3 +38,8 @@ export const fetchCart = async () => {
     const { data } = await $authHost.get("/cart");
     return data;
 }
+
+export const fetchProducts = async () => {
+    const { data } = await $authHost.get("/product/all");
+    return data;
+}
