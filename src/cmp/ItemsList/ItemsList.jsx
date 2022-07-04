@@ -7,7 +7,7 @@ import { $authHost } from "../../http";
 import { usersStore } from "../../store/userStore";
 import { useNavigate } from "react-router";
 import { LOGIN_ROUTE } from "../consts/consts";
-import { fetchProducts } from "../../http/userAPI";
+import { fetchProducts, refresh } from "../../http/userAPI";
 
 const ItemsList = observer(() => {
   const navigate = useNavigate();
@@ -19,10 +19,14 @@ const ItemsList = observer(() => {
   }, [])
 
   const toCardHandler = async (id) => {
+    refresh();
+
     if (usersStore.getRole() !== "user") {
       navigate(LOGIN_ROUTE)
     }
+
     const currentProduct = productsStore.getProduct(id);
+
     if (currentProduct.count > 0) {
       productsStore.removeProduct(id);
       cartStore.addProduct({ ...currentProduct });

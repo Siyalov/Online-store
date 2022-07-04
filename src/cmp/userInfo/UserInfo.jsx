@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { fetchUserInfo, addMoney } from "../../http/userAPI";
+import { fetchUserInfo, addMoney, refresh } from "../../http/userAPI";
 
 const UserInfo = () => {
     const [payment, setPayment] = useState("");
@@ -9,6 +9,8 @@ const UserInfo = () => {
 
     const click = async (evt) => {
         evt.preventDefault();
+        refresh();
+
         if (payment > 0 && payment.indexOf("-") === -1 && payment < Number.MAX_SAFE_INTEGER) {
             addMoney(payment).then(data => { setUserInfo(data) });
             setError(false)
@@ -18,9 +20,11 @@ const UserInfo = () => {
         }
 
     }
+
     useEffect(() => {
         fetchUserInfo().then(data => { setUserInfo(data) });
     }, [])
+
     return (
         <div className="main__container">
             <div className="main__content user__account">

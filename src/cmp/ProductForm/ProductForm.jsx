@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
+import { refresh } from "../../http/userAPI";
 import { productsStore } from "../../store/productsStore";
 
 const ProductForm = () => {
@@ -19,7 +20,7 @@ const ProductForm = () => {
         data.append("image", product.imageUrl);
         data.append("price", product.price);
         data.append("count", product.count);
-        return data
+        return data;
     };
 
     const navigate = useNavigate();
@@ -43,6 +44,8 @@ const ProductForm = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        refresh();
+
         if (getValue("price") < Number.MAX_SAFE_INTEGER && getValue("count") < Number.MAX_SAFE_INTEGER) {
             await doFetch()
         }

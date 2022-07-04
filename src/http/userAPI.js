@@ -43,3 +43,9 @@ export const fetchProducts = async () => {
     const { data } = await $authHost.get("/product/all");
     return data;
 }
+
+export const refresh = async () => {
+    let res = await $authHost.get("token/refresh");
+    localStorage.setItem("accessToken", res.data.accessToken);
+    localStorage.setItem("refreshToken", res.data.refreshToken);
+}

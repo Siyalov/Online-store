@@ -9,9 +9,8 @@ import { observer } from "mobx-react-lite";
 import {
   ADD_PRODUCT_ROUTE, ADMIN_ROUTE, BAG_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, USER_ROUTE
 } from "../consts/consts";
-import { fetchCart } from "../../http/userAPI";
+import { fetchCart, refresh } from "../../http/userAPI";
 import { usersStore } from "../../store/userStore";
-import { $authHost } from "../../http";
 
 const Header = observer(() => {
   useEffect(() => {
@@ -23,11 +22,6 @@ const Header = observer(() => {
       fetchCart().then(data => { cartStore.setProducts(data) });
     }
   }, [])
-
-  async function refresh() {
-    await $authHost.get("token/refresh")
-  }
-
 
   const logout = () => {
     localStorage.clear();
@@ -42,7 +36,11 @@ const Header = observer(() => {
         </Link>
         <div className="userpage__header">
           {usersStore.getRole() === "admin" &&
-            <Link to={ADD_PRODUCT_ROUTE} className="link">
+            <Link
+              to={ADD_PRODUCT_ROUTE}
+              className="link"
+              onClick={refresh}
+            >
               <img className="user-avatar" src={plus} alt="add-product" />
             </Link>
           }
@@ -54,7 +52,11 @@ const Header = observer(() => {
             <img className="user-avatar" src={user} alt="avatar"></img>
           </Link>
           {usersStore.getRole() === "user" &&
-            <Link to={BAG_ROUTE} className="link">
+            <Link
+              to={BAG_ROUTE}
+              className="link"
+              onClick={refresh}
+            >
               <div className="bag__wrapper__header">
                 <img className="bag-logo" src={bag} alt="bag"></img>
                 <div className="bag-count__wrapper">{cartStore.getCount()}</div>

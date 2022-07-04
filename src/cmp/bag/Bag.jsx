@@ -3,7 +3,7 @@ import BagItem from "./BagItem";
 import { observer } from "mobx-react-lite";
 import { productsStore } from "../../store/productsStore";
 import { $authHost } from "../../http";
-import { fetchCart } from "../../http/userAPI";
+import { fetchCart, refresh } from "../../http/userAPI";
 import { cartStore } from "../../store/cartStore";
 
 
@@ -17,8 +17,10 @@ const Bag = observer(() => {
   }, [])
 
   const addProduct = async (id) => {
+    refresh();
     const product = cartStore.getProduct(id);
-    cartStore.getTotalPrice()
+    cartStore.getTotalPrice();
+
     if (product.count < 1) {
       return;
     }
@@ -35,25 +37,29 @@ const Bag = observer(() => {
   };
 
   const removeProduct = async (id) => {
+    refresh();
+
     await $authHost.post("/cart/add-product", { p_id: id, count: -1 }).then(
       async () => { await $authHost.get("cart"); }
     )
-    cartStore.removeProduct(id);
-    cartStore.getTotalPrice()
 
+    cartStore.removeProduct(id);
+    cartStore.getTotalPrice();
     const newProduct = productsStore.getProduct(id);
     const newCount = newProduct.count + 1;
-
     productsStore.changeProduct(id, { ...newProduct, count: newCount });
   };
 
   const removeProductGroup = async (id) => {
+    refresh();
+
     const countInProductsList = productsStore.getProduct(id).count;
     const countInCart = cartStore.getProduct(id).count;
     const totalCount = countInProductsList + countInCart;
     const newProduct = { ...cartStore.getProduct(id), count: totalCount };
     cartStore.removeProductGroup(id);
     productsStore.changeProduct(id, newProduct);
+
     await $authHost.get("/cart/remove-item?p_id=" + id).then(
       async () => { await $authHost.get("cart"); }
     )
@@ -62,6 +68,7 @@ const Bag = observer(() => {
 
   const order = async (evt) => {
     evt.preventDefault();
+    refresh();
     await $authHost.get("cart/offer").catch(() => setError("Недостаточно средств"))
     fetchCart().then(data => { cartStore.setProducts(data) });
   }
