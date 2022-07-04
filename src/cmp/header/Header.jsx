@@ -11,6 +11,7 @@ import {
 } from "../consts/consts";
 import { fetchCart } from "../../http/userAPI";
 import { usersStore } from "../../store/userStore";
+import { $authHost } from "../../http";
 
 const Header = observer(() => {
   useEffect(() => {
@@ -22,6 +23,10 @@ const Header = observer(() => {
       fetchCart().then(data => { cartStore.setProducts(data) });
     }
   }, [])
+
+  async function refresh() {
+    await $authHost.get("token/refresh")
+  }
 
 
   const logout = () => {
@@ -42,6 +47,7 @@ const Header = observer(() => {
             </Link>
           }
           <Link
+            onClick={refresh}
             to={usersStore.getRole() === "admin" ? ADMIN_ROUTE : usersStore.getRole() === "user" ? USER_ROUTE : LOGIN_ROUTE}
             className="link"
           >
