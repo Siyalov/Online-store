@@ -1,9 +1,9 @@
 import React from 'react';
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-const AuthRoute = ({Page, isAuth}) => {
+const AuthRoute = ({ Page }) => {
     return (
-        isAuth ? <Page/> : <Navigate to={'/login'}/>
+        localStorage.getItem("is_admin") === "false" ? <Page /> : <Navigate to={'/login'} />
     );
 };
 

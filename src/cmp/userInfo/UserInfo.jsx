@@ -20,9 +20,6 @@ const UserInfo = () => {
         }
 
     }
-    const logout = () => {
-        localStorage.clear();
-    }
     useEffect(() => {
         fetchUserInfo().then(data => { setUserInfo(data) });
     }, [])
@@ -34,7 +31,6 @@ const UserInfo = () => {
                 <input type="number" min="0" value={payment} onChange={e => setPayment(e.target.value)} className={isEmpty ? "input input__error" : "input"} placeholder="Сумма, ₽"></input>
                 {error && <div>{error}</div>}
                 <button onClick={click} className="btn">Пополнить</button>
-                <Link to={LOGIN_ROUTE} className="link" onClick={logout}>Выйти</Link>
             </div>
         </div>
 

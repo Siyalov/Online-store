@@ -1,4 +1,3 @@
-import AddProduct from "../../pages/AddProduct";
 import {
     ADD_PRODUCT_ROUTE, ADMIN_ROUTE,
     BAG_ROUTE,
@@ -8,12 +7,13 @@ import {
     SHOP_ROUTE,
     USER_ROUTE
 } from "../consts/consts";
+import AddProduct from "../../pages/AddProduct";
 import ShoppingBag from "../../pages/ShoppingBag";
 import CustomerPage from "../../pages/CustomerPage";
 import Auth from "../../pages/Auth";
-import NotFound from "../../pages/NotFound";
 import AdminPage from "../../pages/AdminPage";
 import Main from "../../pages/Main";
+import NotFountPage from "../../pages/NotFountPage";
 
 export const routes = {
     public_routes: [
@@ -34,16 +34,11 @@ export const routes = {
         },
         {
             exact: true,
-            Element: NotFound,
+            Element: NotFountPage,
             path: NOT_FOUND_PAGE
         },
     ],
     auth_routes: [
-        {
-            exact: true,
-            Element: AddProduct,
-            path: ADD_PRODUCT_ROUTE
-        },
         {
             exact: true,
             Element: ShoppingBag,
@@ -61,5 +56,10 @@ export const routes = {
             Element: AdminPage,
             path: ADMIN_ROUTE
         },
+        {
+            exact: true,
+            Element: AddProduct,
+            path: ADD_PRODUCT_ROUTE
+        }
     ]
 }

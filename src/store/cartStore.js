@@ -10,12 +10,15 @@ class CartStore {
     makeAutoObservable(this);
   }
   setProducts(products) {
+    // for(let i=0; i< products.length; i++) {
+    //   this.products.push({})
+    // }
     this.products = products;
   }
 
   addProduct(newProduct) {
     const productIndex = this.products.findIndex(
-      (product) => product.id === newProduct.id
+      (prod) => prod.product.id === newProduct.id
     );
 
     if (productIndex < 0) {
@@ -36,7 +39,7 @@ class CartStore {
 
   removeProductGroup = (id) => {
     const productIndex = this.products.findIndex(
-      (product) => product.id === id
+      (prod) => prod.product.id === id
     );
 
     if (productIndex < 0) {
@@ -48,22 +51,22 @@ class CartStore {
 
   removeProduct(id) {
     const productIndex = this.products.findIndex(
-      (product) => product.id === id
+      (prod) => prod.product.id === id
     );
 
     if (productIndex < 0) {
       return;
     }
 
-    const product = this.products[productIndex];
+    const prod = this.products[productIndex];
 
-    if (product.count === 1) {
+    if (prod.count === 1) {
       this.products.splice(productIndex, 1);
 
       return;
     }
 
-    product.count--;
+    prod.count--;
   }
 
   cleaCard() {
@@ -83,7 +86,7 @@ class CartStore {
 
   getTotalPrice() {
     this.sum = this.products.reduce(
-      (totalPrice, product) => totalPrice + Number(product.price) * product.count, 0);
+      (totalPrice, prod) => totalPrice + Number(prod.product.price) * prod.count, 0);
     return this.sum
   }
 

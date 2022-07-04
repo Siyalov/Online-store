@@ -1,9 +1,9 @@
 import React from 'react';
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-const AdminRoute = ({Page, isAuth, isAdmin}) => {
+const AdminRoute = ({ Page }) => {
     return (
-        isAuth && isAdmin ? <Page/> : <Navigate to={'/login'}/>
+        localStorage.getItem("is_admin") === "true" ? <Page /> : <Navigate to={'/login'} />
     );
 };
 

@@ -3,10 +3,7 @@ import Bag from "../cmp/bag/Bag";
 
 const ShoppingBag = () => {
     return (
-        <>
-            <Bag />
-        </>
-
+        <Bag />
     )
 }
 

@@ -30,11 +30,6 @@ const ItemsList = observer(() => {
     const currentProduct = productsStore.getProduct(id);
     productsStore.removeProduct(id);
     cartStore.addProduct({ ...currentProduct });
-    cartStore.add();
-    let tmp = localStorage.getItem("cartCount");
-    tmp++;
-    console.log(tmp);
-    localStorage.setItem("cartCount", tmp)
     await $authHost.post("/cart/add-product", { p_id: id, count: 1 }).then(
       async () => {
         let res = await $authHost.get("cart");

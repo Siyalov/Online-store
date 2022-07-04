@@ -3,9 +3,7 @@ import ItemsList from "../cmp/ItemsList/ItemsList";
 
 const Main = () => {
     return (
-        <>
-            <ItemsList />
-        </>
+        <ItemsList />
     )
 };
 

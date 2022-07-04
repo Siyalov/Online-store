@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite";
 import { productsStore } from "../../store/productsStore";
 import { $authHost } from "../../http";
 import { fetchCart, fetchUserInfo } from "../../http/userAPI";
+import { cartStore } from "../../store/cartStore";
 
 
 const Bag = observer(() => {
@@ -12,9 +13,26 @@ const Bag = observer(() => {
   let [error, setError] = useState([]);
   //let [userInfo, setUserInfo] = useState(false);
 
+  // useEffect(() => {
+  //   if (cartStore.getCount() < 1) {
+  //     fetchCart().then(data => {
+  //       console.log((data));
+  //       let arr = [];
+  //       for (let i = 0; i < data.length; i++) {
+  //         arr.push({ ...data[i].product })
+  //         arr[i].count = data.count;
+  //       }
+  //       cartStore.setProducts(arr);
+  //     });
+  //   }
+  // }, [])
+
   useEffect(() => {
-    fetchCart().then(data => { setBag(data); console.log(data); console.log(bag, 'bag') });
+    if (cartStore.getCount() < 1) {
+      fetchCart().then(data => { cartStore.setProducts(data) });
+    }
   }, [])
+
   // const addProduct = (id) => {
   //   const product = cartStore.getProduct(id);
   //   cartStore.getTotalPrice()
@@ -35,7 +53,13 @@ const Bag = observer(() => {
     )
   };
   const removeProduct = async (id) => {
-    productsStore.addProduct(id);
+    cartStore.removeProduct(id);
+    cartStore.getTotalPrice()
+
+    const newProduct = productsStore.getProduct(id);
+    const newCount = newProduct.count + 1;
+
+    productsStore.changeProduct(id, { ...newProduct, count: newCount });
     await $authHost.post("/cart/add-product", { p_id: id, count: -1 }).then(
       async () => {
         let res = await $authHost.get("cart");
@@ -44,9 +68,14 @@ const Bag = observer(() => {
     )
   };
   const removeProductGroup = async (id) => {
-    //const newProduct = productsStore.getProduct(id);
-    //const newCount = newProduct.count + 1;
-    // productsStore.changeProduct(id, { ...newProduct, count: newCount });
+    // const countInProductsList = productsStore.getProduct(id).count;
+    // const countInCart = cartStore.getProduct(id).count;
+    //   const totalCount = countInProductsList + countInCart;
+
+    //  const newProduct = { ...cartStore.getProduct(id), count: totalCount };
+
+    cartStore.removeProductGroup(id);
+    // productsStore.changeProduct(id, newProduct);
     await $authHost.get("/cart/remove-item?p_id=" + id).then(
       async () => {
         let res = await $authHost.get("cart");
@@ -58,30 +87,11 @@ const Bag = observer(() => {
 
   const order = async (evt) => {
     evt.preventDefault();
+    cartStore.cleaCard();
     await $authHost.get("cart/offer").catch(() => setError("Недостаточно средств"))
     fetchCart().then(data => { setBag(data); console.log(data); });
   }
 
-  // const removeProduct = (id) => {
-  //   cartStore.removeProduct(id);
-  //   cartStore.getTotalPrice()
-
-  //   const newProduct = productsStore.getProduct(id);
-  //   const newCount = newProduct.count + 1;
-
-  //   productsStore.changeProduct(id, { ...newProduct, count: newCount });
-  // };
-
-  // const removeProductGroup = (id) => {
-  //   const countInProductsList = productsStore.getProduct(id).count;
-  //   const countInCart = cartStore.getProduct(id).count;
-  //   const totalCount = countInProductsList + countInCart;
-
-  //   const newProduct = { ...cartStore.getProduct(id), count: totalCount };
-
-  //   cartStore.removeProductGroup(id);
-  //   productsStore.changeProduct(id, newProduct);
-  // };
   const getTotalPrice = () => {
     let sum = 0;
     for (let i = 0; i < bag.length; i++) {
@@ -94,9 +104,9 @@ const Bag = observer(() => {
   return (
     <div className="main__container">
       <div className="main__content">
-        <h1 className="h1">Корзина{bag.length === 0 && " пуста"}</h1>
+        <h1 className="h1">Корзина{cartStore.getCount() === 0 && " пуста"}</h1>
         <div className="list">
-          {bag.map((p) => (
+          {cartStore.products.map((p) => (
             <BagItem
               removeProduct={removeProduct}
               addProduct={addProduct}
@@ -106,9 +116,9 @@ const Bag = observer(() => {
             />
           ))}
         </div>
-        {bag.length > 0 &&
+        {cartStore.getCount() > 0 &&
           <div className="bag__total__wrapper">
-            <div className="h1">{getTotalPrice()} ₽</div>
+            <div className="h1">{cartStore.getTotalPrice()} ₽</div>
             <button className="btn" onClick={order}>Оформить</button>
           </div>}
         {error && <div className="bag__error error">{error}</div>}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { $authHost } from "../../http";
 import { login, registration } from "../../http/userAPI";
+import { usersStore } from "../../store/userStore";
 import { LOGIN_ROUTE, REG_ROUTE, SHOP_ROUTE } from "../consts/consts";
 
 const Login = () => {
@@ -25,6 +26,7 @@ const Login = () => {
                     let res = await $authHost.get("user/profile")
                     localStorage.setItem("email", res.data.email)
                     localStorage.setItem("money", res.data.money)
+                    usersStore.setRole()
                     navigate(SHOP_ROUTE)
                 })
             } else {
@@ -33,6 +35,7 @@ const Login = () => {
                     return;
                 }
                 registration(email, password).then(setError("Регистрация прошла успешно"))
+                usersStore.setRole()
             }
         }
 
