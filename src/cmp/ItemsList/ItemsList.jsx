@@ -5,9 +5,12 @@ import { productsStore } from "../../store/productsStore";
 import { useFetch } from "../../hooks/useFetch";
 import { cartStore } from "../../store/cartStore";
 import { $authHost } from "../../http";
-import { refresh } from "../../http/userAPI";
+import { usersStore } from "../../store/userStore";
+import { useNavigate } from "react-router";
+import { LOGIN_ROUTE } from "../consts/consts";
 
 const ItemsList = observer(() => {
+  const navigate = useNavigate();
   const { data, error, isLoading, doFetch } = useFetch({
     url: `${process.env.REACT_APP_API_URL}/product/all`,
     method: "get",
@@ -18,7 +21,7 @@ const ItemsList = observer(() => {
     if (productsStore.products.length < 1) {
       doFetch();
     }
-  }, []);
+  });
 
   useEffect(() => {
     if (data) {
@@ -27,15 +30,16 @@ const ItemsList = observer(() => {
   }, [data]);
 
   const toCardHandler = async (id) => {
+    if (usersStore.getRole() !== "user") {
+      navigate(LOGIN_ROUTE)
+    }
     const currentProduct = productsStore.getProduct(id);
-    productsStore.removeProduct(id);
-    cartStore.addProduct({ ...currentProduct });
-    await $authHost.post("/cart/add-product", { p_id: id, count: 1 }).then(
-      async () => {
-        let res = await $authHost.get("cart");
-        console.log(res.data);
-
-      })
+    if (currentProduct.count > 0) {
+      productsStore.removeProduct(id);
+      cartStore.addProduct({ ...currentProduct });
+      await $authHost.post("/cart/add-product", { p_id: id, count: 1 }).then(
+        async () => { await $authHost.get("cart"); })
+    }
   };
 
   if (isLoading) return <div>... Загрузка</div>;

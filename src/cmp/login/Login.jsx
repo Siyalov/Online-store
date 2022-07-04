@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { $authHost } from "../../http";
-import { login, registration } from "../../http/userAPI";
+import { fetchCart, login, registration } from "../../http/userAPI";
+import { cartStore } from "../../store/cartStore";
 import { usersStore } from "../../store/userStore";
 import { LOGIN_ROUTE, REG_ROUTE, SHOP_ROUTE } from "../consts/consts";
 
@@ -27,6 +28,7 @@ const Login = () => {
                     localStorage.setItem("email", res.data.email)
                     localStorage.setItem("money", res.data.money)
                     usersStore.setRole()
+                    fetchCart().then(data => { cartStore.setProducts(data) })
                     navigate(SHOP_ROUTE)
                 })
             } else {
@@ -76,8 +78,20 @@ const Login = () => {
                         required
                     />
                 }
-                <button type="submit" className="btn" onClick={click}>{isLogin ? "Войти" : "Создать аккаунт"}</button>
-                <Link to={isLogin ? REG_ROUTE : LOGIN_ROUTE} onClick={changeLink} className="link">{isLogin ? "Создать аккаунт" : "Войти"}</Link>
+                <button
+                    type="submit"
+                    className="btn"
+                    onClick={click}
+                >
+                    {isLogin ? "Войти" : "Создать аккаунт"}
+                </button>
+                <Link
+                    to={isLogin ? REG_ROUTE : LOGIN_ROUTE}
+                    onClick={changeLink}
+                    className="link"
+                >
+                    {isLogin ? "Создать аккаунт" : "Войти"}
+                </Link>
                 {error && <div>{error}</div>}
             </form>
         </div>

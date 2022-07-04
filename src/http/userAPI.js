@@ -1,4 +1,3 @@
-import axios from "axios";
 import { $authHost } from "./index";
 
 export const registration = async (email, password) => {

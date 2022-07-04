@@ -1,7 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { fetchUserInfo, addMoney } from "../../http/userAPI";
-import { LOGIN_ROUTE } from "../consts/consts";
 
 const UserInfo = () => {
     const [payment, setPayment] = useState("");
@@ -28,7 +26,14 @@ const UserInfo = () => {
             <div className="main__content user__account">
                 <p className="h1">{userInfo.email}</p>
                 <p className="h1">Баланс: {userInfo.money} ₽</p>
-                <input type="number" min="0" value={payment} onChange={e => setPayment(e.target.value)} className={isEmpty ? "input input__error" : "input"} placeholder="Сумма, ₽"></input>
+                <input
+                    type="number"
+                    min="0"
+                    value={payment}
+                    onChange={e => setPayment(e.target.value)}
+                    className={isEmpty ? "input input__error" : "input"}
+                    placeholder="Сумма, ₽"
+                ></input>
                 {error && <div>{error}</div>}
                 <button onClick={click} className="btn">Пополнить</button>
             </div>

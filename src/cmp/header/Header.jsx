@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect } from "react";
 import { Link } from "react-router-dom";
 import bag from "../../img/bag.png";
 import user from "../../img/user.png";
@@ -16,11 +16,7 @@ const Header = observer(() => {
   useEffect(() => {
     usersStore.setRole();
   }, [])
-  let [bagCount, setBagCount] = useState([]);
-  useEffect(() => {
-    if (localStorage.getItem("is_admin") === "false")
-      fetchCart().then(data => { setBagCount(data) });
-  }, [])
+
   useEffect(() => {
     if (cartStore.getCount() < 1) {
       fetchCart().then(data => { cartStore.setProducts(data) });
@@ -45,7 +41,10 @@ const Header = observer(() => {
               <img className="user-avatar" src={plus} alt="add-product" />
             </Link>
           }
-          <Link to={usersStore.getRole() === "admin" ? ADMIN_ROUTE : usersStore.getRole() === "user" ? USER_ROUTE : LOGIN_ROUTE} className="link">
+          <Link
+            to={usersStore.getRole() === "admin" ? ADMIN_ROUTE : usersStore.getRole() === "user" ? USER_ROUTE : LOGIN_ROUTE}
+            className="link"
+          >
             <img className="user-avatar" src={user} alt="avatar"></img>
           </Link>
           {usersStore.getRole() === "user" &&

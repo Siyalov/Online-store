@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
-import { $authHost } from "../../http";
 import { productsStore } from "../../store/productsStore";
 
 const ProductForm = () => {
@@ -20,14 +19,12 @@ const ProductForm = () => {
         data.append("image", product.imageUrl);
         data.append("price", product.price);
         data.append("count", product.count);
-
         return data
     };
 
     const navigate = useNavigate();
 
     const changeHandler = (nameField) => (e) => {
-        console.log(e.target.files);
         setProduct({
             ...product,
             [nameField]:
@@ -42,8 +39,6 @@ const ProductForm = () => {
         headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${localStorage.getItem("accessToken")}` }
     });
 
-
-
     const getValue = (nameField) => product[nameField];
 
     const submitHandler = async (e) => {
@@ -55,11 +50,10 @@ const ProductForm = () => {
 
     useEffect(() => {
         if (data) {
-            // productsStore.addProduct(data);
             productsStore.setProducts([]);
             navigate("/")
         }
-    }, [data]);
+    });
 
     if (isLoading) {
         return <div>...Loading</div>;
@@ -80,11 +74,15 @@ const ProductForm = () => {
                 />
                 <Input
                     label="Цена"
+                    type="number"
+                    min="0"
                     value={getValue("price")}
                     changeHandler={changeHandler("price")}
                 />
                 <Input
                     label="Количество"
+                    type="number"
+                    min="0"
                     value={getValue("count")}
                     changeHandler={changeHandler("count")}
                 />

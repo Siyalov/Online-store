@@ -9,6 +9,7 @@ const ItemCard = ({
   price,
   toCardHandler,
 }) => {
+
   return (
     <div className="item__card">
       <img
@@ -23,7 +24,6 @@ const ItemCard = ({
         <div className="item__text">{price} ₽</div>
       </div>
       <button
-        // disabled={!count}
         onClick={() => toCardHandler(id)}
         className="btn"
       >
