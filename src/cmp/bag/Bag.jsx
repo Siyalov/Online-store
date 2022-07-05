@@ -65,7 +65,6 @@ const Bag = observer(() => {
     )
   };
 
-
   const order = async (evt) => {
     evt.preventDefault();
     refresh();

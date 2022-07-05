@@ -9,9 +9,8 @@ import { observer } from "mobx-react-lite";
 import {
   ADD_PRODUCT_ROUTE, ADMIN_ROUTE, BAG_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, USER_ROUTE
 } from "../consts/consts";
-import { fetchCart, refresh } from "../../http/userAPI";
+import { fetchCart, logout, refresh } from "../../http/userAPI";
 import { usersStore } from "../../store/userStore";
-
 const Header = observer(() => {
   useEffect(() => {
     usersStore.setRole();
@@ -22,11 +21,6 @@ const Header = observer(() => {
       fetchCart().then(data => { cartStore.setProducts(data) });
     }
   }, [])
-
-  const logout = () => {
-    localStorage.clear();
-    usersStore.setRole()
-  }
 
   return (
     <header className="header">

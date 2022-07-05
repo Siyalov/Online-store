@@ -1,3 +1,4 @@
+import { usersStore } from "../store/userStore";
 import { $authHost } from "./index";
 
 export const registration = async (email, password) => {
@@ -48,4 +49,10 @@ export const refresh = async () => {
     let res = await $authHost.get("token/refresh");
     localStorage.setItem("accessToken", res.data.accessToken);
     localStorage.setItem("refreshToken", res.data.refreshToken);
+}
+
+export const logout = async () => {
+    await $authHost.get("/user/log-out");
+    localStorage.clear();
+    usersStore.setRole();
 }
